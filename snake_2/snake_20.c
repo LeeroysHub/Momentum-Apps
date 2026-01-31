@@ -91,11 +91,9 @@ const NotificationSequence sequence_fail = {
 
 const NotificationSequence sequence_eat = {
 
-    &message_vibro_on,
     &message_note_c7,
     &message_delay_50,
     &message_sound_off,
-    &message_vibro_off,
     NULL,
 };
 
@@ -602,7 +600,7 @@ int32_t snake_20_app(void* p) {
                             snake_state->timer_start_timestamp =
                                 curr_ts - snake_state->timer_stopped_seconds;
 
-                            furi_timer_start(timer, furi_kernel_get_tick_frequency() / 4);
+                            furi_timer_start(timer, furi_kernel_get_tick_frequency() / 5);
                             snake_state->state = GameStateLife;
                         }
                         break;
@@ -632,7 +630,7 @@ int32_t snake_20_app(void* p) {
                             snake_state->nextMovement = DirectionUp;
                             //Speed Up
                             if(snake_state->currentMovement == DirectionUp) {
-                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 8);
+                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 16);
                             }
                             //Breaking
                             if(snake_state->currentMovement == DirectionDown) {
@@ -645,7 +643,7 @@ int32_t snake_20_app(void* p) {
                             snake_state->nextMovement = DirectionDown;
                             //Speed Up
                             if(snake_state->currentMovement == DirectionDown) {
-                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 8);
+                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 16);
                             }
                             //Breaking
                             if(snake_state->currentMovement == DirectionUp) {
@@ -658,7 +656,7 @@ int32_t snake_20_app(void* p) {
                             snake_state->nextMovement = DirectionRight;
                             //Speed Up
                             if(snake_state->currentMovement == DirectionRight) {
-                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 8);
+                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 16);
                             }
                             //Breaking
                             if(snake_state->currentMovement == DirectionLeft) {
@@ -671,7 +669,7 @@ int32_t snake_20_app(void* p) {
                             snake_state->nextMovement = DirectionLeft;
                             //Speed Up
                             if(snake_state->currentMovement == DirectionLeft) {
-                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 8);
+                                furi_timer_start(timer, furi_kernel_get_tick_frequency() / 16);
                             }
                             //Breaking
                             if(snake_state->currentMovement == DirectionRight) {
@@ -695,7 +693,7 @@ int32_t snake_20_app(void* p) {
                 //ReleaseKey Event
                 if(event.input.type == InputTypeRelease) {
                     if(snake_state->state != GameStatePause) {
-                        furi_timer_start(timer, furi_kernel_get_tick_frequency() / 4);
+                        furi_timer_start(timer, furi_kernel_get_tick_frequency() / 5);
                     }
                 }
             } else if(event.type == EventTypeTick) {
