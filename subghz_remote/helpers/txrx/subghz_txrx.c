@@ -10,6 +10,21 @@
 
 #define TAG "SubGhz"
 
+#define TX_PRESET_POWER_COUNT 11
+const uint8_t tx_power_value[TX_PRESET_POWER_COUNT] = {
+    0,
+    0xC0,
+    0xC5,
+    0xCD,
+    0x86,
+    0x50,
+    0x37,
+    0x26,
+    0x1D,
+    0x17,
+    0x03,
+};
+
 static void subghz_txrx_radio_device_power_on(SubGhzTxRx* instance) {
     UNUSED(instance);
     uint8_t attempts = 0;
@@ -33,7 +48,7 @@ SubGhzTxRx* subghz_txrx_alloc(void) {
     instance->preset = malloc(sizeof(SubGhzRadioPreset));
     instance->preset->name = furi_string_alloc();
     subghz_txrx_set_preset(
-        instance, "AM650", subghz_setting_get_default_frequency(instance->setting), NULL, 0);
+        instance, "AM650", subghz_setting_get_default_frequency(instance->setting), NULL, 0,0);
 
     instance->txrx_state = SubGhzTxRxStateSleep;
 
@@ -106,9 +121,17 @@ void subghz_txrx_set_preset(
     const char* preset_name,
     uint32_t frequency,
     uint8_t* preset_data,
-    size_t preset_data_size) {
+    size_t preset_data_size,
+    uint32_t tx_power) {    
     furi_assert(instance);
     furi_string_set(instance->preset->name, preset_name);
+    #define TX_POWER_OFFSET 6
+
+    //Set the TX Power Here in the CC1101 register...
+    if(tx_power)
+        preset_data[preset_data_size - TX_POWER_OFFSET] = tx_power_value[tx_power];
+    
+        //Set the preset with updated TX Power
     SubGhzRadioPreset* preset = instance->preset;
     preset->frequency = frequency;
     preset->data = preset_data;

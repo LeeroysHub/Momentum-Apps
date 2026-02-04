@@ -84,7 +84,8 @@ void subghz_txrx_set_preset(
     const char* preset_name,
     uint32_t frequency,
     uint8_t* preset_data,
-    size_t preset_data_size);
+    size_t preset_data_size,
+    uint32_t tx_power);
 
 /**
  * Get name of preset

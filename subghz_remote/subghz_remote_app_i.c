@@ -247,7 +247,7 @@ bool subrem_tx_start_sub(SubGhzRemoteApp* app, SubRemSubFilePreset* sub_preset) 
             furi_string_get_cstr(sub_preset->freq_preset.name),
             sub_preset->freq_preset.frequency,
             NULL,
-            0);
+            0,0);
 #ifndef FW_ORIGIN_Official
         subghz_custom_btns_reset();
         subghz_txrx_custom_button_reset(app->txrx);
